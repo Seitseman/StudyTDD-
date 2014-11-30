@@ -39,7 +39,7 @@ TEST_F(AGeoServer, TracksMultipleUsers) {
     ASSERT_TRUE(server.isTracking(anotherUser));
 }
 
-TEST_F(AGeoServer, DISABLED_UpdatesLocationOfUser)
+TEST_F(AGeoServer, UpdatesLocationOfUser)
 {
     server.track(AGeoServer::aUser);
     server.updateLocation(AGeoServer::aUser, Location{38, -104});
@@ -48,3 +48,5 @@ TEST_F(AGeoServer, DISABLED_UpdatesLocationOfUser)
     ASSERT_NEAR(38, location.latitude(), AGeoServer::LocationTolerance);
     ASSERT_NEAR(-104, location.longitude(), AGeoServer::LocationTolerance);
 }
+
+
