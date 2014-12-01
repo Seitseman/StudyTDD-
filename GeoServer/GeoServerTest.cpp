@@ -100,3 +100,15 @@ TEST_F(AGeoServer_UsersInBox, AnswersUsersInSpecifiedRange)
 
     ASSERT_EQ(vector<string>{bUser}, UserNames(users));
 }
+
+TEST_F(AGeoServer_UsersInBox, AnswersOnlyUsersWithinSpecifiedRange)
+{
+    server.updateLocation(bUser,
+                          Location{aUserLocation.go(Width / 2 + TenMeters, East)});
+    server.updateLocation(cUser,
+                          Location{aUserLocation.go(Width/2 - TenMeters, East)});
+
+    auto users = server.usersInBox(aUser, Width, Height);
+
+    ASSERT_EQ(vector<string>{cUser}, UserNames(users));
+}

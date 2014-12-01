@@ -23,6 +23,10 @@ public:
     std::vector<User> usersInBox(const std::string& user,
                                  double widthInMeters,
                                  double heightInMeters) const;
+    bool isDifferentUserInBounds(
+            const std::pair<std::string, Location>& each,
+            const std::string& user,
+            const Area& box) const;
 
 
 private:
