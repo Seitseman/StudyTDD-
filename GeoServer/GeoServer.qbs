@@ -8,16 +8,12 @@ Project {
         files: [
             "Area.cpp",
             "Area.h",
-            "AreaTest.cpp",
             "GeoServer.cpp",
             "GeoServer.h",
-            "GeoServerTest.cpp",
             "Location.cpp",
             "Location.h",
-            "LocationTest.cpp",
             "User.h",
             "VectorUtil.h",
-            "main.cpp",
         ]
         Depends {name: "cpp"}
 
@@ -28,5 +24,15 @@ Project {
         cpp.cxxFlags: ["-std=c++11" ,"-Wall"]
 
         cpp.dynamicLibraries: ["gmock", "gtest", "pthread"]
+
+        Group {
+            name: "Tests"
+            files: [
+                "main.cpp",
+                "AreaTest.cpp",
+                "GeoServerTest.cpp",
+                "LocationTest.cpp"
+            ]
+        }
     }
 }
