@@ -49,4 +49,15 @@ TEST_F(AGeoServer, UpdatesLocationOfUser)
     ASSERT_NEAR(-104, location.longitude(), AGeoServer::LocationTolerance);
 }
 
+TEST_F(AGeoServer, AnswersUnknownLoactionForUserNotTracked)
+{
+    ASSERT_TRUE(server.locationOf("anAbUser").isUnknown());
+}
 
+TEST_F(AGeoServer, AnswersUnknownLocationForUserNoLongerTracked)
+{
+    server.track(AGeoServer::aUser);
+    server.updateLocation(AGeoServer::aUser, Location(40, 100));
+    server.stopTracking(AGeoServer::aUser);
+    ASSERT_TRUE(server.locationOf(AGeoServer::aUser).isUnknown());
+}

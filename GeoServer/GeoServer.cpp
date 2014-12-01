@@ -11,30 +11,35 @@ GeoServer::GeoServer()
 
 void GeoServer::track(const std::string &user)
 {
-    users_.push_back(user);
+    locations_[user] = Location();
+}
+
+void GeoServer::stopTracking(const string& user)
+{
+    locations_.erase(user);
 }
 
 bool GeoServer::isTracking(const std::string &user) const
 {
-    bool found{false};
-    for (const string & curUser : users_)
-    {
-        if (curUser == user)
-        {
-            found = true;
-            break;
-        }
-    }
-
-    return found;
+    return find(user) != locations_.end();
 }
 
 void GeoServer::updateLocation(const string& user, const Location& location)
 {
-    // TODO:
+    locations_[user] = location;
 }
 
 Location GeoServer::locationOf(const string &user) const
 {
-    return Location();
+    if (!isTracking(user))
+    {
+        return Location{};
+    }
+    return find(user)->second;
+}
+
+unordered_map<string, Location>::const_iterator
+GeoServer::find(const string& user) const
+{
+    return locations_.find(user);
 }

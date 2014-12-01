@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 #include "Location.h"
 
@@ -11,6 +12,7 @@ class GeoServer
 public:
     explicit GeoServer();
     void track(const std::string& user);
+    void stopTracking(const std::string& user);
     bool isTracking(const std::string& user) const;
 
     void updateLocation(const std::string& user, const Location& location);
@@ -18,7 +20,8 @@ public:
 
 
 private:
-    std::vector<std::string> users_;
+    std::unordered_map<std::string, Location> locations_;
+    std::unordered_map<std::string, Location>::const_iterator find(const std::string& user) const;
 };
 
 #endif // GEOSERVER_H
