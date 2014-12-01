@@ -6,6 +6,8 @@
 #include <unordered_map>
 
 #include "Location.h"
+#include "Area.h"
+#include "User.h"
 
 class GeoServer
 {
@@ -17,6 +19,10 @@ public:
 
     void updateLocation(const std::string& user, const Location& location);
     Location locationOf(const std::string& user) const;
+
+    std::vector<User> usersInBox(const std::string& user,
+                                 double widthInMeters,
+                                 double heightInMeters) const;
 
 
 private:

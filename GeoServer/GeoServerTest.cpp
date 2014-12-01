@@ -1,6 +1,8 @@
 #include "gmock/gmock.h"
 
 #include "GeoServer.h"
+#include "VectorUtil.h"
+#include "User.h"
 
 using namespace std;
 using namespace ::testing;
@@ -60,4 +62,41 @@ TEST_F(AGeoServer, AnswersUnknownLocationForUserNoLongerTracked)
     server.updateLocation(AGeoServer::aUser, Location(40, 100));
     server.stopTracking(AGeoServer::aUser);
     ASSERT_TRUE(server.locationOf(AGeoServer::aUser).isUnknown());
+}
+
+
+class AGeoServer_UsersInBox : public Test
+{
+public:
+    GeoServer server;
+    const double TenMeters {10};
+    const double Width {2000 + TenMeters};
+    const double Height {4000 + TenMeters};
+    const string aUser {"auser"};
+    const string bUser {"buser"};
+    const string cUser {"cuser"};
+
+    Location aUserLocation {38, -103};
+
+    void SetUp() override {
+        server.track(aUser);
+        server.track(bUser);
+        server.track(cUser);
+        server.updateLocation(aUser, aUserLocation);
+
+    }
+
+    vector<string> UserNames(const vector<User>& users) {
+        return Collect<User, string>(users, [](User each){return each.name();});
+    }
+};
+
+
+TEST_F(AGeoServer_UsersInBox, AnswersUsersInSpecifiedRange)
+{
+    server.updateLocation(bUser, Location{aUserLocation.go(Width / 2 - TenMeters, East)});
+
+    auto users = server.usersInBox(aUser, Width, Height);
+
+    ASSERT_EQ(vector<string>{bUser}, UserNames(users));
 }

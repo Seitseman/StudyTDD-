@@ -38,6 +38,13 @@ Location GeoServer::locationOf(const string &user) const
     return find(user)->second;
 }
 
+std::vector<User> GeoServer::usersInBox(const string& user, double widthInMeters,
+                                        double heightInMeters) const
+{
+    auto location = locations_.find(user)->second;
+    Area box {location, widthInMeters, heightInMeters};
+}
+
 unordered_map<string, Location>::const_iterator
 GeoServer::find(const string& user) const
 {

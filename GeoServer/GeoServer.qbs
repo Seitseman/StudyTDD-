@@ -6,12 +6,17 @@ Project {
 
     CppApplication {
         files: [
+            "Area.cpp",
+            "Area.h",
+            "AreaTest.cpp",
             "GeoServer.cpp",
             "GeoServer.h",
             "GeoServerTest.cpp",
             "Location.cpp",
             "Location.h",
             "LocationTest.cpp",
+            "User.h",
+            "VectorUtil.h",
             "main.cpp",
         ]
         Depends {name: "cpp"}
