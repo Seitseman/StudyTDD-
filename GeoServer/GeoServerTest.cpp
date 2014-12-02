@@ -3,6 +3,7 @@
 #include "GeoServer.h"
 #include "VectorUtil.h"
 #include "User.h"
+#include "TestTimer.h"
 
 using namespace std;
 using namespace ::testing;
@@ -111,4 +112,21 @@ TEST_F(AGeoServer_UsersInBox, AnswersOnlyUsersWithinSpecifiedRange)
     auto users = server.usersInBox(aUser, Width, Height);
 
     ASSERT_EQ(vector<string>{cUser}, UserNames(users));
+}
+
+TEST_F(AGeoServer_UsersInBox, HandlesLargenumbersofUsers)
+{
+    Location anotherLocation{aUserLocation.go(10, West)};
+    const unsigned int lots{500000};
+    for(unsigned int i{0}; i < lots; ++i)
+    {
+        string user{"user" + to_string(i)};
+        server.track(user);
+        server.updateLocation(user, anotherLocation);
+    }
+
+    TestTimer timer;
+
+    auto users = server.usersInBox(aUser, Width, Height);
+    ASSERT_EQ(lots, users.size());
 }

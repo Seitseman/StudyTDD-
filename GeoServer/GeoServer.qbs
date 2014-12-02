@@ -14,6 +14,8 @@ Project {
             "Location.h",
             "User.h",
             "VectorUtil.h",
+            "Work.h",
+            "ThreadPool.h",
         ]
         Depends {name: "cpp"}
 
@@ -28,10 +30,14 @@ Project {
         Group {
             name: "Tests"
             files: [
+                "TestTimer.cpp",
+                "TestTimer.h",
+                "ThreadPoolTest.cpp",
+                "WorkTest.cpp",
                 "main.cpp",
                 "AreaTest.cpp",
                 "GeoServerTest.cpp",
-                "LocationTest.cpp"
+                "LocationTest.cpp",
             ]
         }
     }
